@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/backLayout_theory_add">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/id_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="GameField"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_above="@+id/linearLayout">
+
+        <ru.eyelog.gamefield.ViewField
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/id_view_game_field" />
+
+        <ru.eyelog.gamefield.ViewChar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/id_view_game_char" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Refresh"
+            android:id="@+id/id_btn"
+            android:onClick="onRefresh"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:visibility="visible" />
+
+    </LinearLayout>
+</RelativeLayout>
