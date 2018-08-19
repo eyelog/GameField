@@ -32,6 +32,9 @@ public class ViewField extends View {
     int start_00=0, stop_00=90;
     int start_01=45, stop_01=135;
 
+    // Пакет координат для расчета ограничения передвижения.
+    float[][] boardCoordinates = new float[4][2];
+
     public ViewField(Context context) {
         super(context);
         init();
@@ -153,6 +156,18 @@ public class ViewField extends View {
 
         last = x;
 
+        // собираем пакет для расчета границ
+        boardCoordinates[0][0] = x_matrix[start_00];
+        boardCoordinates[0][1] = y_matrix[start_00];
+
+        boardCoordinates[1][0] = x_matrix[start_01];
+        boardCoordinates[1][1] = y_matrix[start_01];
+
+        boardCoordinates[2][0] = x_matrix[stop_00];
+        boardCoordinates[2][1] = y_matrix[stop_00];
+
+        boardCoordinates[3][0] = x_matrix[stop_01];
+        boardCoordinates[3][1] = y_matrix[stop_01];
     }
 
     @Override
