@@ -3,11 +3,15 @@ package ru.eyelog.gamefield;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Movie;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
 
 public class ViewChar extends View {
@@ -24,8 +28,15 @@ public class ViewChar extends View {
     int anim_way = 0; // 0 - stay, 1 - run left, 2 - run right
 
     float x_last=0, y_last=0;
+    float x, y;
+
+    boolean animFinish = false;
 
     TranslateAnimation translateAnimation;
+
+    float[] startCoordinates = new float[2];
+
+
 
     public ViewChar(Context context) {
         super(context);
@@ -43,6 +54,20 @@ public class ViewChar extends View {
     }
 
     public void init(){
+
+        if(screenX>screenY){ // Landscape
+
+            x_last = centerX;
+            y_last = centerY;
+
+        }else{ // Portrait
+
+            x_last = centerX;
+            y_last = centerY*3/2;
+
+        }
+
+
         mStay = Movie.decodeStream(getResources().openRawResource(R.raw.anim_stay));
         mRunLeft = Movie.decodeStream(getResources().openRawResource(R.raw.anim_left));
         mRunRight = Movie.decodeStream(getResources().openRawResource(R.raw.anim_right));
@@ -51,6 +76,8 @@ public class ViewChar extends View {
     public void drawUpdater(final float x, final float y, boolean showSignal){
 
         this.showSignal = showSignal;
+        this.x = x;
+        this.y = y;
 
         invalidate();
 
@@ -68,11 +95,46 @@ public class ViewChar extends View {
             @Override
             public void onAnimationStart(Animation animation) {
 
+                Log.e("animFinish", String.valueOf(animFinish));
+
+
+                if(!animFinish){
+
+                    /*
+
+
+                    translateAnimation.getTransformation(AnimationUtils.currentAnimationTimeMillis(), transformation);
+                    transformation.getMatrix().getValues(matrix);
+                    */
+                    Transformation transformation = new Transformation();
+                    float[] matrix = new float[9];
+
+                    translateAnimation.getTransformation(AnimationUtils.currentAnimationTimeMillis(), transformation);
+
+                    transformation.getMatrix().getValues(matrix);
+                    float y = matrix[Matrix.MTRANS_Y];
+
+                    Log.e("Matrix", "y = " + y);
+
+                    //x_last = matrix[Matrix.MTRANS_X];
+                    //y_last = matrix[Matrix.MTRANS_Y];
+
+                    //clearAnimation();
+                    //invalidate();
+                }
+
+                animFinish = false;
+
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
                 anim_way = 0;
+
+                Log.e("onAnimationEnd", "got");
+                animFinish = true;
+                Log.e("animFinish", String.valueOf(animFinish));
+
                 x_last = x;
                 y_last = y;
                 clearAnimation();
@@ -88,6 +150,15 @@ public class ViewChar extends View {
 
     }
 
+    public float[] getStartCoordinates(){
+
+        startCoordinates[0] = x_last;
+        startCoordinates[1] = y_last;
+
+
+        return startCoordinates;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -98,8 +169,7 @@ public class ViewChar extends View {
             centerX = screenX/2;
             centerY = screenY/2;
 
-            x_last = centerX;
-            y_last = centerY;
+
 
             screenGet = false;
             init();

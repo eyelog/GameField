@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
             x = e.getX();
             y = e.getY();
 
-            aimCoordinates = borderCounter.reachWayCoordinates(viewField.boardCoordinates,
-                    new float[][]{{viewChar.x_last, viewChar.y_last}, {x, y}});
+            aimCoordinates = borderCounter.reachWayCoordinates(viewField.getBorderCoordinates(),
+                    new float[][]{viewChar.getStartCoordinates(),{x, y}});
 
             viewChar.drawUpdater(aimCoordinates[0], aimCoordinates[1], true);
             viewChar.invalidate();
@@ -109,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
         viewField.start_01=45;
         viewField.stop_01=135;
         viewField.invalidate();
+
+        viewChar.clearAnimation();
+        viewChar.init();
+        viewChar.invalidate();
     }
 
 }

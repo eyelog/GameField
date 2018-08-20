@@ -155,6 +155,9 @@ public class ViewField extends View {
         }
 
         last = x;
+    }
+
+    public float[][] getBorderCoordinates(){
 
         // собираем пакет для расчета границ
         boardCoordinates[0][0] = x_matrix[start_00];
@@ -168,6 +171,8 @@ public class ViewField extends View {
 
         boardCoordinates[3][0] = x_matrix[stop_01];
         boardCoordinates[3][1] = y_matrix[stop_01];
+
+        return boardCoordinates;
     }
 
     @Override
